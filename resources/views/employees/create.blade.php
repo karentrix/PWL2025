@@ -68,9 +68,38 @@
         .btn-simpan:hover {
             background-color: #45a049;
         }
+
+        .alert {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
     </style>
 </head>
 <body>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    
     <h1>Tambah Pegawai Baru</h1>
 
     <form action="{{ route('employees.store') }}" method="POST">

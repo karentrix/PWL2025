@@ -31,12 +31,10 @@ public function store(Request $request)
        'salary' => $request->salary,
    ]);
 
-   return response()->json(
-       [
-           'message' => 'Pegawai berhasil disimpan',
-           'employee'  => $employee, 
-       ], 201
-   );
+    session()->flash('success', 'Data Pegawai berhasil disimpan!');
+    
+    return redirect()->route('employees.index');
+
 }
 
 
@@ -45,14 +43,14 @@ public function destroy($id)
    $employee = Employee::find($id);
 
    if (!$employee) {
-       return response()->json([
-           'message' => 'Pegawai tidak ditemukan',
-       ], 404);
+       return redirect()->route('employees.index')->with('error', 'Pegawai tidak ditemukan');
    }
 
    $employee->delete(); 
 
-   return response()->json(['message' => 'Pegawai telah dihapus']);
+    session()->flash('success', 'Data Pegawai berhasil dihapus!');
+
+    return redirect()->route('employees.index');
 }
 
 public function edit($id)
@@ -77,9 +75,7 @@ public function update(Request $request, $id)
    $employee = Employee::find($id);
 
    if (!$employee) {
-       return response()->json([
-           'message' => 'Pegawai tidak ditemukan',
-       ], 404);
+       return redirect()->route('employees.index')->with('error', 'Pegawai tidak ditemukan.');
    }
 
    $employee->update([
@@ -88,9 +84,8 @@ public function update(Request $request, $id)
        'salary' => $request->salary,
    ]);
 
-   return response()->json([
-       'message' => 'Pegawai berhasil diperbarui',
-       'employee' => $employee, 
-   ], 200);
+    session()->flash('success', 'Data Pegawai berhasil diperbarui!');
+
+    return redirect()->route('employees.index');
 }
 }
